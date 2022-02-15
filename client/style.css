@@ -1,0 +1,135 @@
+.abs-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+body {
+    background-image: linear-gradient(to right, #B8C9E5, #f0f3fa);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: cursive;
+}
+
+.login-btn #register-btn {
+    font-family: sans-serif;
+}
+
+#register-btn {
+    background-color: white;
+    border: none;
+    position: relative;
+    left: 150px;
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+#register-btn:hover {
+    color: rgb(26, 26, 141);
+}
+
+#log-btn {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+#log-btn:hover {
+    color: rgb(26, 26, 141);
+}
+
+.logo-div {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo {
+    display: inline;
+}
+
+.login {
+    background-color: white;
+    border: 1px solid black;
+    padding: 1%;
+}
+
+.register {
+    background-color: white;
+    border: 1px solid black;
+    padding: 1%;
+    display: none;
+}
+
+.login-page {
+    background-color: gray;
+}
+
+input {
+    height: 30px;
+}
+
+#logo {
+    position: relative;
+    text-align: center;
+    font-size: xx-large;
+}
+
+#logo-top-png {
+    width: 40px;
+    height: 40px;
+}
+
+#login-pass {
+    margin-left: 2px
+}
+
+#register-mail {
+    margin-bottom: 5px
+}
+
+#register-name {
+    margin-bottom: 5px;
+}
+
+#log-submit-btn {
+    background-color: rgb(56, 56, 212);
+    color: white;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 19px;
+    cursor: pointer;
+}
+#log-submit-btn:hover{
+    border: 2px solid black;
+}
+
+#reg-submit-btn {
+    background-color: rgb(56, 56, 212);
+    color: white;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 19px;
+    cursor: pointer;
+}
+#reg-submit-btn:hover{
+    border: 2px solid black;
+}
+
+
+#login-error, #register-error {
+    font-family: sans-serif;
+    text-decoration: wavy underline;
+    color: red;
+    font-size: small;
+    font-weight: bold;
+    margin-bottom: -3%;
+    /* display: none; */
+}
+

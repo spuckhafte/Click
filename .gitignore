@@ -1,0 +1,5 @@
+packages/Jdb/Docs
+packages/node_modules
+packages/mValid/node_modules
+packages/mValid/details.js
+server/node_modules
