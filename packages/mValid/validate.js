@@ -7,11 +7,12 @@ const reader = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 })
-function sendMail(to) {
+function sendMail(to, retFn) {
     const user = details.user;
     const pass = details.pass;
     const sub = '\"Click\" Validation';
-    const msg = 'Your OTP is: ' + otpgenerator.generate(6, { upperCase: false, specialChars: false, alphabets: false })
+    let otp = otpgenerator.generate(6, { upperCase: false, specialChars: false, alphabets: false });
+    const msg = 'Your OTP is: ' + otp
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -28,10 +29,10 @@ function sendMail(to) {
     transporter.sendMail(email, (err, info) => {
         if (err) {
             console.log('\x1b[31m' + err + '\x1b[0m')
-            return false
+            retFn([false])
         } else {
             console.log(`\x1b[32mMail sent: \x1b[35m${user} \x1b[33m-> \x1b[35m${to}\x1b[0m`)
-            return true
+            retFn([true, otp])
         }
     })
 }

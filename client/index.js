@@ -7,6 +7,10 @@ const logButton = $('.login-btn')
 const registerBtn = $('.sign-btn')
 const registerMail = $('#register-mail')
 
+const usermailInVerification = $('#verify-mail')
+const verifyOtp = $('#ver-submit-btn')
+const resendOtp = $('#resend-otp-btn-')
+
 const changeToLogBtn = $('#log-btn')
 const changeToRegBtn = $('#register-btn')
 
@@ -52,6 +56,12 @@ socket.on('sign-log-error', (type, err) => {
 
 socket.on('sign-log-success', (type, user) => {
     console.log(user)
+})
+
+socket.on('otp-sent-verify', mail => {
+    usermailInVerification.text(mail)
+    $('.register').css('display', 'none')
+    $('.verify').css('display', 'block')
 })
 
 const _showLoginRegisterError = (err, type) => {

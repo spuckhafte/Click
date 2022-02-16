@@ -48,6 +48,20 @@
             </form>
         </div>
 
+        <div class="verify abs-center">
+            <p style="text-align:center;font-size:large;margin-top:-2%"><u><u>Verify</u></u></p>
+            <form id="verify-form">
+                <p id="verify-mail"
+                    style="margin-bottom: 0px;font-size: smaller;font-family: sans-serif;width: 200px;overflow-wrap: break-word">
+                </p>
+                <input id="verify-code" type="text" name="code" placeholder="Verification Code" autocomplete="off"
+                    autofocus maxlength="6">
+                <input type="submit" class="verify-btn" value="Verify" id="ver-submit-btn"><br>
+                <p id="verify-error"></p>
+                <button id="resend-otp-btn">Resend Code?</button>
+            </form>
+        </div>
+
         </div>
     </body>
 

@@ -133,3 +133,37 @@ input {
     /* display: none; */
 }
 
+.verify {
+    padding: 10px;
+    background-color: white;
+    border: 1px solid black;
+    display: none;
+}
+
+#ver-submit-btn {
+    background-color: rgb(56, 56, 212);
+    color: white;
+    cursor: pointer;
+}
+
+#ver-submit-btn:hover {
+    background-color: rgb(26, 26, 141);
+}
+
+#resend-otp-btn {
+    background: transparent;
+    border: none;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline;
+}
+#resend-otp-btn:hover {
+    color: rgb(61, 92, 228);
+}
+
+#verify-code, #ver-submit-btn {
+    display: inline;
+}

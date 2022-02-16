@@ -3,3 +3,7 @@ packages/node_modules
 packages/mValid/node_modules
 packages/mValid/details.js
 server/node_modules
+server/Db-database
+/server/Db-database/other/__config.json
+/server/Db-database/data/__config.json
+server/Db-database/other/__config.json
