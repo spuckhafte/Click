@@ -73,6 +73,10 @@ input {
     height: 30px;
 }
 
+.login-btn, .sign-btn, .verify-btn {
+    height: 30px;
+}
+
 #logo {
     position: relative;
     text-align: center;
@@ -133,6 +137,15 @@ input {
     /* display: none; */
 }
 
+#verify-error {
+    font-family: sans-serif;
+    text-decoration: wavy underline;
+    color: red;
+    font-size: small;
+    font-weight: bold;
+    margin-top: 1px;
+}
+
 .verify {
     padding: 10px;
     background-color: white;
@@ -150,16 +163,6 @@ input {
     background-color: rgb(26, 26, 141);
 }
 
-#resend-otp-btn {
-    background: transparent;
-    border: none;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    color: blue;
-    cursor: pointer;
-    text-decoration: underline;
-}
 #resend-otp-btn:hover {
     color: rgb(61, 92, 228);
 }

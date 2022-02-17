@@ -50,19 +50,48 @@ changeToRegBtn.click(event => {
     $('.register').css('display', 'block')
 })
 
+verifyOtp.click(event => {
+    event.preventDefault();
+    let usermail = usermailInVerification[0].outerText
+    let otp = $('#verify-code').val()
+    socket.emit('verify-otp', [usermail, otp])
+})
+
 socket.on('sign-log-error', (type, err) => {
     type === 'login' ? _showLoginRegisterError(err, 'login') : _showLoginRegisterError(err, 'register')
 })
 
 socket.on('sign-log-success', (type, user) => {
-    console.log(user)
+    if (type === 'login') console.log(user)
+    else alert('Registered successful, kindly login')
 })
 
 socket.on('otp-sent-verify', mail => {
     usermailInVerification.text(mail)
     $('.register').css('display', 'none')
     $('.verify').css('display', 'block')
+    setTimeout(() => {
+        if ($('.verify').css('display') === 'block') {
+            socket.emit('otp-timeout', mail)
+            $('.verify').css('display', 'none')
+            $('.register').css('display', 'block')
+            $('#register-error').text(err)
+            $('#register-error').css('display', 'block')
+        }
+    }, 300000)
 })
+
+socket.on('otp-err', (type, err) => {
+    if (type === 'exp') {
+        $('.verify').css('display', 'none')
+        $('.register').css('display', 'block')
+        _showLoginRegisterError(err, 'register')
+    }
+    if (type === 'inv') {
+        $('#verify-error').text(err)
+    }
+})
+
 
 const _showLoginRegisterError = (err, type) => {
     if (type === 'login') {
@@ -76,6 +105,6 @@ const _showLoginRegisterError = (err, type) => {
         $('#register-error').css('display', 'block')
         setTimeout(() => {
             $('#register-error').css('display', 'none')
-        }, 4000)
+        }, 10000)
     }
 }

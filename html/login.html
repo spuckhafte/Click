@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../client/style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="../client/index.js" defer></script>
@@ -43,22 +44,21 @@
                 <input id="register-pass" type="password" name="password" placeholder="Password (>8 chars)"
                     autocomplete="off" maxlength="20"><br>
                 <p id="register-error"></p>
-                <input type="submit" class="sign-btn" value="Register" id="reg-submit-btn"><br>
+                <button class="sign-btn" value="Register" id="reg-submit-btn">Submit</button><br>
                 <button id="log-btn">Login?</button>
             </form>
         </div>
 
         <div class="verify abs-center">
             <p style="text-align:center;font-size:large;margin-top:-2%"><u><u>Verify</u></u></p>
+            <p id="verify-mail"
+                style="margin-bottom: 0px;font-size: smaller;font-family: sans-serif;width: 200px;overflow-wrap: break-word">
+            </p>
             <form id="verify-form">
-                <p id="verify-mail"
-                    style="margin-bottom: 0px;font-size: smaller;font-family: sans-serif;width: 200px;overflow-wrap: break-word">
-                </p>
                 <input id="verify-code" type="text" name="code" placeholder="Verification Code" autocomplete="off"
                     autofocus maxlength="6">
-                <input type="submit" class="verify-btn" value="Verify" id="ver-submit-btn"><br>
+                <button class="verify-btn" id="ver-submit-btn">Submit</button><br>
                 <p id="verify-error"></p>
-                <button id="resend-otp-btn">Resend Code?</button>
             </form>
         </div>
 
