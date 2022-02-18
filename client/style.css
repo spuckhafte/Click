@@ -170,3 +170,8 @@ input {
 #verify-code, #ver-submit-btn {
     display: inline;
 }
+
+#buffering-log-reg {
+    height: 20px;
+    display: none;
+}

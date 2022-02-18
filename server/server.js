@@ -6,7 +6,6 @@ const io = require('socket.io')(http, {
     cors: { origin: "*" }
 });
 const sha256 = require('js-sha256');
-
 //db format -> "username": ["password", "email", ...]
 
 const unverifiedUsers = {}; // { mail: username, pass, otp, socket.id }

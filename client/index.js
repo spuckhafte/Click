@@ -27,10 +27,14 @@ logButton.click(event => {
 
 registerBtn.click(event => {
     event.preventDefault()
-
     if (regUsername.val().length <= 2 || regPasssword.val().length < 8) {
         _showLoginRegisterError('Fill in all fields as indicated', 'register')
     } else {
+        registerBtn.unbind('click')
+        registerBtn.attr('disabled', true)
+        registerBtn[0].innerText = 'Registering...'
+        registerBtn.css('cursor', 'not-allowed')
+        changeToLogBtn.css('display', 'none')
         let username = regUsername.val()
         let mail = registerMail.val()
         let password = regPasssword.val()

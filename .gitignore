@@ -7,3 +7,4 @@ server/Db-database
 /server/Db-database/other/__config.json
 /server/Db-database/data/__config.json
 server/Db-database/other/__config.json
+/server/test.js
