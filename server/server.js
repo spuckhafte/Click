@@ -6,15 +6,16 @@ const io = require('socket.io')(http, {
     cors: { origin: "*" }
 });
 const sha256 = require('js-sha256');
+const { assert } = require('console');
 //db format -> "username": ["password", "email", ...]
 
 const unverifiedUsers = {}; // { mail: username, pass, otp, socket.id }
 
 io.on('connection', socket => {
-
     socket.on('login', data => { // when users logs in
         let username = data.username
         let password = data.password
+        jdb.assignI('data', 'users', { 'test': '123' })
         let allUsers = Object.keys(jdb.__getIEl('data', 'users')) // get all users from iElement
         if (allUsers.includes(username)) {
             let user = jdb.__getIEl('data', 'users')[username]
