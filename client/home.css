@@ -9,6 +9,13 @@ body {
     background-image: linear-gradient(to right, #B8C9E5, #f0f3fa);
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-family: cursive;
+    overflow: hidden;
+    padding: 0;
+    margin: 0px;
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.123)
 }
 
 .nav {
@@ -38,6 +45,10 @@ body {
     background-color: rgba(2, 2, 2, 0.082);
 }
 
+.nav-home-div:hover {
+    background-color: rgba(2, 2, 2, 0);
+}
+
 #home-icon, #event-icon {
     font-size: x-large;
     position: relative;
@@ -51,17 +62,17 @@ body {
     padding-inline: 16px;
 }
 
-.nav-events-div:hover, .nav-message-div:hover, .nav-profile-div:hover {
+.nav-events-div:hover, .nav-message-div:hover, .nav-profile-div:hover, .nav-notify-div:hover {
     background-color: rgba(0, 0, 0, 0.158);
 }
 
-.nav-message-div {
+.nav-message-div, .nav-notify-div {
     background-color: rgba(0, 0, 0, 0.253);
     border: 2px solid black;
     padding: 10px;
 }
 
-#message-icon {
+#message-icon, #notify-icon {
     font-size: x-large;
     position: relative;
     left: 2px;
@@ -69,4 +80,72 @@ body {
 
 #profile-icon {
     font-size: x-large;
+}
+
+.profile-overview {
+    overflow-y: auto;
+    margin-top: -8px;
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    width: 10.35rem;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.123);
+}
+
+#home-dp {
+    margin-top: 8px;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    position: relative;
+    top: 0.02rem;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+}
+
+#home-dp:hover {
+    filter: brightness(0.7);
+}
+
+#home-name {
+    margin-top: -2px;
+    font-weight: bold;
+    font-size: large;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+#home-mail, #home-bday, #home-about {
+    margin-top: -10px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+#home-editprofile {
+    cursor: pointer;
+    padding: 5px;
+    margin-top: -10px;
+    text-align: center;
+    background-color: #0546a8;
+    font-size: 15px;
+    margin-top: 10px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#home-editprofile span {
+    color: white;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    cursor: pointer;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;    
+}
+::-webkit-scrollbar-thumb {
+    background: #888;
 }
