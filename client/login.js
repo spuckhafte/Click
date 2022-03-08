@@ -71,9 +71,8 @@ socket.on('sign-log-error', (type, err) => { // error in login/register
 socket.on('sign-log-success', (type, user) => { // success in login/register
     if (type === 'login') {
         $('#login-error').css('display', 'none')
-        console.log(user)
-        alert('Login Successful')
-        // need to work on this
+        console.log(user, './')
+        window.location.href = './home.html'
     }
     else {
         $('#register-error').css('display', 'none')

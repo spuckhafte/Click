@@ -5,12 +5,12 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../client/style.css">
+        <link rel="stylesheet" href="../client/login.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="../client/index.js" defer></script>
+        <script src="../client/login.js" defer></script>
         <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
         <title>Click</title>
     </head>
@@ -38,11 +38,12 @@
         <div class="register abs-center">
             <p style="text-align:center;font-size:large;margin-top:-2%"><u><u>Signup</u></u></p>
             <form id="register-form">
-                <input id="register-name" type="text" name="username" placeholder="Username (>3 chars)"
-                    autocomplete="off" autofocus maxlength="20"><br>
-                <input id="register-mail" type="email" name="password" placeholder="eMail" autocomplete="off"><br>
-                <input id="register-pass" type="password" name="password" placeholder="Password (>8 chars)"
-                    autocomplete="off" maxlength="20"><br>
+                <input class="register-input" id="register-name" type="text" name="username"
+                    placeholder="Username (>3 chars)" autocomplete="off" autofocus maxlength="20"><br>
+                <input class="register-input" id="register-mail" type="email" name="password" placeholder="eMail"
+                    autocomplete="off"><br>
+                <input class="register-input" id="register-pass" type="password" name="password"
+                    placeholder="Password (>8 chars)" autocomplete="off" maxlength="20"><br>
                 <p id="register-error"></p>
                 <button class="sign-btn" value="Register" id="reg-submit-btn">Submit</button><br>
                 <button id="log-btn">Login?</button>

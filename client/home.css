@@ -1,0 +1,72 @@
+.abs-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+body {
+    background-image: linear-gradient(to right, #B8C9E5, #f0f3fa);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: cursive;
+}
+
+.nav {
+    display: inline;
+    margin-inline: 8px;
+    cursor: pointer;
+}
+
+.logo {
+    display: inline;
+}
+
+#logo {
+    font-size: x-large;
+}
+
+#logo-top-png {
+    position: relative;
+    top: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+.nav-home-div {
+    border: 2px solid black;
+    padding: 10px;
+    background-color: rgba(2, 2, 2, 0.082);
+}
+
+#home-icon, #event-icon {
+    font-size: x-large;
+    position: relative;
+    left: 2px;
+}
+
+.nav-events-div, .nav-profile-div {
+    background-color: rgba(0, 0, 0, 0.253);
+    border: 2px solid black;
+    padding: 10px;
+    padding-inline: 16px;
+}
+
+.nav-events-div:hover, .nav-message-div:hover, .nav-profile-div:hover {
+    background-color: rgba(0, 0, 0, 0.158);
+}
+
+.nav-message-div {
+    background-color: rgba(0, 0, 0, 0.253);
+    border: 2px solid black;
+    padding: 10px;
+}
+
+#message-icon {
+    font-size: x-large;
+    position: relative;
+    left: 2px;
+}
+
+#profile-icon {
+    font-size: x-large;
+}

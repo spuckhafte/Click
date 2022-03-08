@@ -15,6 +15,10 @@ body {
     font-family: sans-serif;
 }
 
+.register-input {
+    width: 200px;
+}
+
 #register-btn {
     background-color: white;
     border: none;

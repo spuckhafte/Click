@@ -5,4 +5,4 @@ packages/mValid/details.js
 server/node_modules
 # server/Db-database
 /server/test.js
-/packages/Jdb@v2/functions/import/encryption.js
+/packages/Jdb@v2
