@@ -1,7 +1,6 @@
 const jdb = require('../packages/Jdb@v2/jdb');
 const validate = require('../packages/mValid/validate.js');
 const http = require('http').createServer()
-const fs = require('fs')
 const io = require('socket.io')(http, {
     cors: { origin: "*" }
 });
@@ -12,17 +11,29 @@ const sha256 = require('js-sha256');
 const unverifiedUsers = {}; // { mail: username, pass, otp, socket.id } -> info of users to be verified
 
 io.on('connection', socket => {
+    console.log('socket connected');
     socket.on('login', data => { // user logs in
         let username = data.username
         let password = data.password
         let allUsers = Object.values(jdb.getEl('data', 'user')) // get all the usernames
 
         if (allUsers.includes(username)) { // if username exists
-            let user = JSON.parse(jdb.getR('data', 'moral', ['user', username])['userinfo']); // get user info [email, password]
-            user.push(username) // add username to userinfo
+            let userData = {}
+            let user = JSON.parse(jdb.getR('data', 'moral', ['user', username])['userinfo']); // get user info [email, password, dob]
+            let about = JSON.parse(jdb.getR('data', 'moral', ['user', username])['userabout']); // get user info [avatar, gender, about]
+
+            userData['username'] = username;
+            userData['mail'] = user[0];
+            userData['password'] = user[1];
+            userData['dob'] = user[2];
+            userData['avatar'] = about[0];
+            userData['gender'] = about[1];
+            userData['about'] = about[2];
+
+            userData = JSON.stringify(userData);
 
             let checkPass = sha256(password) // password entered by user
-            if (checkPass === user[1]) socket.emit('sign-log-success', 'login', user) // if password is correct
+            if (checkPass === user[1]) socket.emit('sign-log-success', 'login', userData) // if password is correct
             else socket.emit('sign-log-error', 'login', 'No such user or wrong password')
 
         } else socket.emit('sign-log-error', 'login', 'No such user or wrong password')
@@ -32,6 +43,8 @@ io.on('connection', socket => {
         let username = data.username
         let password = sha256(data.password)
         let mail = data.mail
+        let dob = data.userDob
+        let gender = data.userGender;
 
         let allUsernames = Object.values(jdb.getEl('data', 'user')) // get all the usernames
         let allMails = Object.values(jdb.getEl('data', 'userinfo')) // get mails of all the users [email, password]
@@ -57,6 +70,8 @@ io.on('connection', socket => {
                         'mail': mail,
                         'username': username,
                         'password': password,
+                        'dob': dob,
+                        'gender': gender,
                         'socket': socket
                     }
 
@@ -80,11 +95,15 @@ io.on('connection', socket => {
             if (otp === unverifiedUsers[mail][2]) { // if otp is correct
                 let user = unverifiedUsers[mail][0]
                 let password = unverifiedUsers[mail][1]
+                let dob = unverifiedUsers[mail][3]
+                let gender = unverifiedUsers[mail][4]
+                let about = '~--~'
                 let email = mail
 
                 let moralObject = {
                     'user': user,
-                    'userinfo': [email, password]
+                    'userinfo': [email, password, dob],
+                    'userabout': [`https://avatars.dicebear.com/api/pixel-art-neutral/:${user}.png`, gender, about]
                 }
                 socket.emit('sign-log-success', 'register')
                 await jdb.assignR('data', moralObject) // assign user to database if verified
@@ -94,7 +113,12 @@ io.on('connection', socket => {
         } else socket.emit('otp-err', 'exp', 'Otp expired')
     });
 
+    socket.on('data-for-homepage', data => { // send data to homepage
+        socket.emit('user-data-home', data);
+    })
+
     socket.on('disconnect', () => { // user disconnects
+        console.log('socket disconnected');
         Object.keys(unverifiedUsers).forEach(mail => {
             if (unverifiedUsers[mail][3] === socket.id) {
                 delete unverifiedUsers[mail] // remove the user from unverifiedUsers, if there
@@ -110,11 +134,13 @@ function _sendOtp(data, type) { // send otp to mail
         let mail = data['mail']
         let username = data['username']
         let password = data['password']
+        let dob = data['dob']
+        let gender = data['gender']
         let socket = data['socket']
         validate.sendMail(mail, otpData => {
             if (!otpData[0]) socket.emit('sign-log-error', 'register', 'Invalid mail')
             else {
-                unverifiedUsers[mail] = [username, password, otpData[1], socket.id] // add user to unverifiedUsers
+                unverifiedUsers[mail] = [username, password, otpData[1], dob, gender, socket.id] // add user to unverifiedUsers
                 socket.emit('otp-sent-verify', mail) // notify the client, otp sent!
             }
         })

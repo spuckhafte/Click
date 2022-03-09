@@ -44,6 +44,15 @@
                     autocomplete="off"><br>
                 <input class="register-input" id="register-pass" type="password" name="password"
                     placeholder="Password (>8 chars)" autocomplete="off" maxlength="20"><br>
+                <input type="date" class="register-input" id="register-dob" name="dob" max=""><br>
+                <input type="radio" class="Gender" name="gender" id="gender-male" value="Male" style="cursor: pointer;">
+                <label for="gender-male" style="position: relative; bottom: 10px;font-size: 0.85rem;">Male</label>
+                <input type="radio" class="Gender" name="gender" id="gender-female" value="Female"
+                    style="cursor: pointer;"> <label for="gender-female"
+                    style="position: relative; bottom: 10px;font-size: 0.85rem;">Female</label>
+                <input type="radio" class="Gender" name="gender" id="gender-rather" value="RNS"
+                    style="cursor: pointer;">
+                <label for="gender-rather" style="position: relative; bottom: 10px;font-size: 0.85rem;">RNS</label><br>
                 <p id="register-error"></p>
                 <button class="sign-btn" value="Register" id="reg-submit-btn">Submit</button><br>
                 <button id="log-btn">Login?</button>

@@ -104,6 +104,10 @@ input {
     margin-bottom: 5px;
 }
 
+#register-pass {
+    margin-bottom: 5px;
+}
+
 #log-submit-btn {
     background-color: rgb(56, 56, 212);
     color: white;

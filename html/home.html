@@ -10,8 +10,8 @@
         <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="../client/home.js" defer></script>
         <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
+        <script src="../client/home.js" defer></script>
         <title>Click</title>
     </head>
 
@@ -39,15 +39,21 @@
             <hr color="black">
         </div>
 
-        <div class="profile-overview">
-            <img title="Click To Change" id="home-dp" src="../assets/Test/test_dp.png" alt="dp can't be loaded">
-            <p id="home-name">Jhon Doe</p>
-            <p id="home-mail" title="email"><i class="fa fa-envelope"></i><br>someone@xmail.com</p>
-            <p id="home-bday" title="b'day"><i class="fa fa-birthday-cake"></i><br>24-04-2005</p>
-            <p id="home-about" title="about"><i class="fa fa-info-circle"></i><br>The pain itself is the love of the
-                pain, the main ecological problems</p>
-            <hr>
-            <button id="home-editprofile"><span>edit <i class="fa fa-pencil"></i></span></button>
+        <div style="display: flex;">
+            <div class="profile-overview">
+                <img title="Click To Change" id="home-dp" src="../assets/Test/test_dp.png" alt="dp can't be loaded">
+                <p id="home-name"></p>
+                <p id="home-gender" title="gender"></p>
+                <p id="home-mail" title="email"><i class="fa fa-envelope"></i><br></p>
+                <p id="home-bday" title="b'day"><i class="fa fa-birthday-cake"></i><br></p>
+                <p id="home-about" title="about"><i class="fa fa-info-circle"></i><br></p>
+                <hr>
+                <button id="home-editprofile"><span>edit <i class="fa fa-pencil"></i></span></button>
+            </div>
+            <div class="main-content">
+            </div>
+            <div class="friends">
+            </div>
         </div>
     </body>
 

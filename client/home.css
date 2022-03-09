@@ -87,7 +87,7 @@ body {
     margin-top: -8px;
     border-top: 2px solid black;
     border-right: 2px solid black;
-    width: 10.35rem;
+    width: 16.15rem;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.123);
 }
@@ -120,6 +120,16 @@ body {
     margin-top: -10px;
     text-align: center;
     word-wrap: break-word;
+    font-weight: bold;
+}
+
+#home-gender {
+    margin-top: -20px;
+    margin-bottom: 20px;
+    text-align: center;
+    word-wrap: break-word;
+    font-weight: bold;
+    font-size: small;
 }
 
 #home-editprofile {
@@ -148,4 +158,17 @@ body {
 }
 ::-webkit-scrollbar-thumb {
     background: #888;
+}
+
+.main-content {
+    margin-top: -8px;
+    border: 2px solid black;
+    width: 100%;
+}
+
+.friends {
+    margin-top: -8px;
+    border: 2px solid black;
+    width: 18rem;
+    background-color: rgba(0, 0, 0, 0.123)
 }

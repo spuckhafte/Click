@@ -8,11 +8,15 @@ const regPasssword = $('#register-pass')
 const logButton = $('.login-btn')
 const registerBtn = $('.sign-btn')
 const registerMail = $('#register-mail')
+const registerDob = $('#register-dob')
 const usermailInVerification = $('#verify-mail')
 const verifyOtp = $('#ver-submit-btn')
 const resendOtp = $('#resend-otp-btn-')
 const changeToLogBtn = $('#log-btn')
 const changeToRegBtn = $('#register-btn')
+const maleRadios = $('#gender-male')
+const femaleRadios = $('#gender-female')
+const ratherRadios = $('#gender-rather')
 
 logButton.click(event => { // login
     event.preventDefault()
@@ -27,25 +31,43 @@ logButton.click(event => { // login
 
 registerBtn.click(event => { // register
     event.preventDefault()
-    if (regUsername.val().length <= 2 || regPasssword.val().length < 8) {
+    const checked = maleRadios.prop('checked') || femaleRadios.prop('checked') || ratherRadios.prop('checked')
+    let currentYear = parseInt(new Date().getFullYear());
+    let dobYear = parseInt(registerDob.val().split('-')[0]);
+    if (regUsername.val().length <= 2 || regPasssword.val().length < 8 || registerDob.val() == '' || currentYear - dobYear <= 10 || !checked) {
         _showLoginRegisterError('Fill in all fields as indicated', 'register')
     } else {
-        // css
+        //
+        $('#register-error').css('display', 'none')
         registerBtn.unbind('click')
         registerBtn.attr('disabled', true)
         registerBtn[0].innerText = 'Registering...'
         registerBtn.css('cursor', 'not-allowed')
         changeToLogBtn.css('display', 'none')
 
+        // reverse the dob
+        let dob = registerDob.val().split('-')
+        let userDob = dob[2] + '-' + dob[1] + '-' + dob[0]
+
+        // check which radio is checked
+        let userGender = '';
+        if (maleRadios.prop('checked')) {
+            userGender = maleRadios.val()
+        } else if (femaleRadios.prop('checked')) {
+            userGender = femaleRadios.val()
+        } else {
+            userGender = ratherRadios.val()
+        }
+
         let username = regUsername.val()
         let mail = registerMail.val()
         let password = regPasssword.val()
-        socket.emit('register', { username, password, mail }) // if everything is correct, send user to server
+        socket.emit('register', { username, password, mail, userDob, userGender }) // if everything is correct, send user to server
     }
 })
 
 changeToLogBtn.click(event => { // change to login screen
-    event.preventDefault()
+    event.preventDefault();
     $('.login').css('display', 'block')
     $('.register').css('display', 'none')
 })
@@ -71,7 +93,8 @@ socket.on('sign-log-error', (type, err) => { // error in login/register
 socket.on('sign-log-success', (type, user) => { // success in login/register
     if (type === 'login') {
         $('#login-error').css('display', 'none')
-        console.log(user, './')
+        socket.disconnect();
+        sessionStorage.setItem('user', JSON.stringify(user))
         window.location.href = './home.html'
     }
     else {
