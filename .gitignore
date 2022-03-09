@@ -1,8 +1,5 @@
-packages/Jdb@v2/Docs
-packages/node_modules
 packages/mValid/node_modules
 packages/mValid/details.js
 server/node_modules
-# server/Db-database
-/server/test.js
-/packages/Jdb@v2
+server/Db-database
+packages/Jdb@v2
