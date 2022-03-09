@@ -22,6 +22,9 @@ body {
     display: inline;
     margin-inline: 8px;
     cursor: pointer;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
 }
 
 .logo {
@@ -93,6 +96,9 @@ body {
 }
 
 #home-dp {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
     margin-top: 8px;
     width: 6rem;
     height: 6rem;
