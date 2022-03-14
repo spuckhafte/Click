@@ -32,9 +32,9 @@ logButton.click(event => { // login
 registerBtn.click(event => { // register
     event.preventDefault()
     const checked = maleRadios.prop('checked') || femaleRadios.prop('checked') || ratherRadios.prop('checked')
-    let currentYear = parseInt(new Date().getFullYear());
-    let dobYear = parseInt(registerDob.val().split('-')[0]);
-    if (regUsername.val().length <= 2 || regPasssword.val().length < 8 || registerDob.val() == '' || currentYear - dobYear <= 10 || !checked) {
+  
+    let [dateYear, dateMonth, dateDay] = [new Date(registerDob.val().split('-')[0], registerDob.val().split('-')[1], registerDob.val().split('-')[2]).getTime()];
+    if (regUsername.val().length <= 2 || regPasssword.val().length < 8 || registerDob.val() == '' || Math.abs(new Date(dateYear, dateMonth, dateDay) - Date.now())/3.154e+10 < 13 || !checked) {
         _showLoginRegisterError('Fill in all fields as indicated', 'register')
     } else {
         //

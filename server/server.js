@@ -6,8 +6,10 @@ const io = require('socket.io')(http, {
 });
 const sha256 = require('js-sha256');
 
-//db format -> 1. username 1. [email, password] 1. etc
-
+//db format:
+// user -> {0: id, 1: "user22"}
+// userabout -> {0: id, 1: [dp, gender, about]}
+// userinfo -> {0: id, 1: [mail, password, dob]}
 const unverifiedUsers = {}; // { mail: username, pass, otp, socket.id } -> info of users to be verified
 
 io.on('connection', socket => {
@@ -97,7 +99,7 @@ io.on('connection', socket => {
                 let password = unverifiedUsers[mail][1]
                 let dob = unverifiedUsers[mail][3]
                 let gender = unverifiedUsers[mail][4]
-                let about = '~--~'
+                let about = 'none'
                 let email = mail
 
                 let moralObject = {
@@ -111,6 +113,32 @@ io.on('connection', socket => {
 
             } else socket.emit('otp-err', 'inv', 'Invalid otp')
         } else socket.emit('otp-err', 'exp', 'Otp expired')
+    });
+
+    socket.on('edit-profile', async data => { // user edits profile
+        // get user info and edit it and save it in database
+        let user = jdb.getR('data', 'moral', ['user', data['username']]);
+        let entry = user['entry'];
+        delete user['entry'];
+        let userinfo = JSON.parse(user['userinfo'])
+        let userabout = JSON.parse(user['userabout'])
+        userinfo[2] = data['dob']
+        userabout[2] = data['about']
+
+        user['userinfo'] = JSON.stringify(userinfo)
+        user['userabout'] = JSON.stringify(userabout)
+        await jdb.editR('data', entry, user);
+
+        // send updated user info to client
+        let userData = {}
+        userData['username'] = user['user'];
+        userData['mail'] = userinfo[0];
+        userData['dob'] = userinfo[2];
+        userData['avatar'] = userabout[0];
+        userData['gender'] = userabout[1];
+        userData['about'] = userabout[2];
+        userData = JSON.stringify(userData);
+        socket.emit('user-updated', userData); // send it
     });
 
     socket.on('data-for-homepage', data => { // send data to homepage
