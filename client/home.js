@@ -8,6 +8,7 @@ const homeBdayYear = document.querySelector('#home-bday-year');
 const homeAbout = document.querySelector('#home-about-text');
 const homeGender = document.querySelector('#home-gender');
 const editProfileBtn = $('#home-editprofile');
+const dpProfile = $('#home-dp');
 
 let user = JSON.parse(sessionStorage.getItem('user'));
 user = typeof user === 'object' ? user : JSON.parse(user);
@@ -77,10 +78,14 @@ editProfileBtn.click(() => { // edit profile
     }
 });
 
+dpProfile.click(() => { // change profile picture
+    socket.emit('change-dp', user['username']);
+});
+
 socket.on('user-updated', data => { // update the session storage with the latest information
     sessionStorage.setItem('user', data);
     let user = JSON.parse(sessionStorage.getItem('user'));
-    user = JSON.parse(user);
+    user = typeof user === 'object' ? user : JSON.parse(user);
     updateUser(user);
 });
 

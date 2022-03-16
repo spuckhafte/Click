@@ -17,23 +17,23 @@
 
     <body>
         <div class="navbar">
-            <div onclick="location.reload()" class="nav-login-div nav">
-                <p class="logo" id="logo">Click</p>
+            <div onclick="location.reload()" class="nav-login-div nav select-none">
+                <p class="logo select-none" id="logo">Click</p>
                 <img src="../assets/Logo.png" class="logo" id="logo-top-png">
             </div>
-            <div class="nav-home-div nav" title="Home">
+            <div class="nav-home-div nav select-none" title="Home">
                 <i class="fa fa-home" id="home-icon"></i>
             </div>
-            <div class="nav-events-div nav" title="Events">
+            <div class="nav-events-div nav select-none" title="Events">
                 <i class="fa fa-bolt" id="event-icon"></i>
             </div>
-            <div class="nav-message-div nav" title="Chat">
+            <div class="nav-message-div nav select-none" title="Chat">
                 <i class="fa fa-comment" id="message-icon"></i>
             </div>
-            <div class="nav-notify-div nav" title="Notifications">
+            <div class="nav-notify-div nav select-none" title="Notifications">
                 <i class="fa fa-bell" id="notify-icon"></i>
             </div>
-            <div class="nav-profile-div nav" title="Profile">
+            <div class="nav-profile-div nav select-none" title="Profile">
                 <i class="fa fa-user" id="profile-icon"></i>
             </div>
             <hr color="black">
@@ -41,21 +41,32 @@
 
         <div style="display: flex;">
             <div class="profile-overview">
-                <img title="Click To Change" id="home-dp" src="../assets/Test/test_dp.png" alt="dp can't be loaded">
+                <img class="select-none" title="Click To Change" id="home-dp" src="../assets/Test/test_dp.png"
+                    alt="dp can't be loaded">
                 <p id="home-name"></p>
-                <p id="home-gender" title="gender"></p>
-                <p id="home-mail" title="email"><i class="fa fa-envelope"></i><br></p>
-                <p id="home-bday" title="b'day"><i class="fa fa-birthday-cake"></i><br><input id="home-bday-day"
-                        required max="2" readonly>-<input id="home-bday-month" required max="2" readonly>-<input
-                        id="home-bday-year" required max="4" readonly></p>
-                <p id="home-about" spellcheck="false" title="about"><i class="fa fa-info-circle"></i><br><span id="home-about-text"></span>
+                <p class="select-none" id="home-gender" title="gender"></p>
+                <p class="select-none" id="home-mail" title="email"><i class="fa fa-envelope"></i><br></p>
+                <p class="select-none" id="home-bday" title="b'day"><i class="fa fa-birthday-cake"></i><br><input
+                        id="home-bday-day" required max="2" readonly>-<input id="home-bday-month" required max="2"
+                        readonly>-<input id="home-bday-year" required max="4" readonly></p>
+                <p class="select-none" id="home-about" spellcheck="false" title="about"><i
+                        class="fa fa-info-circle"></i><br><span id="home-about-text"></span>
                 </p>
                 <hr>
-                <button id="home-editprofile"><span>edit <i class="fa fa-pencil"></i></span></button>
+                <button class="select-none" id="home-editprofile"><span>edit <i
+                            class="fa fa-pencil"></i></span></button>
             </div>
             <div class="main-content">
             </div>
             <div class="friends">
+                <div class="friends-header select-none">
+                    <div class="friends-tab" id="all-friends" title="friends"><i class="fa fa-child"></i></div>
+                    <div class="friends-tab" id="pending" title="pending reqs"><i class="fa fa-clock-o"></i></div>
+                    <div class="friends-tab" id="sent" title="sent reqs"><i class="fa fa-send-o"></i></div>
+                </div>
+                <main class="friends-content">
+                    <div class="select-none" id="header">All Friends</div>
+                </main>
             </div>
         </div>
     </body>

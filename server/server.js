@@ -5,12 +5,15 @@ const io = require('socket.io')(http, {
     cors: { origin: "*" }
 });
 const sha256 = require('js-sha256');
+const multer = require('multer');
 
 //db format:
 // user -> {0: id, 1: "user22"}
 // userabout -> {0: id, 1: [dp, gender, about]}
 // userinfo -> {0: id, 1: [mail, password, dob]}
 const unverifiedUsers = {}; // { mail: username, pass, otp, socket.id } -> info of users to be verified
+const socketEntry = {}; // {socket.id: userlinked}
+
 
 io.on('connection', socket => {
     console.log('socket connected');
@@ -21,9 +24,12 @@ io.on('connection', socket => {
 
         if (allUsers.includes(username)) { // if username exists
             let userData = {}
-            let user = JSON.parse(jdb.getR('data', 'moral', ['user', username])['userinfo']); // get user info [email, password, dob]
+            let _user = jdb.getR('data', 'moral', ['user', username]);
+            console.log(typeof _user);
+            let user = JSON.parse(_user['userinfo']) // get user info [email, password, dob]
             let about = JSON.parse(jdb.getR('data', 'moral', ['user', username])['userabout']); // get user info [avatar, gender, about]
 
+            userData['entry'] = _user['entry']
             userData['username'] = username;
             userData['mail'] = user[0];
             userData['password'] = user[1];
@@ -31,11 +37,15 @@ io.on('connection', socket => {
             userData['avatar'] = about[0];
             userData['gender'] = about[1];
             userData['about'] = about[2];
+            userData['line'] = '1';
 
             userData = JSON.stringify(userData);
+            socketEntry[socket.id] = _user['entry'];
 
             let checkPass = sha256(password) // password entered by user
-            if (checkPass === user[1]) socket.emit('sign-log-success', 'login', userData) // if password is correct
+            if (checkPass === user[1]) {
+                socket.emit('sign-log-success', 'login', userData) // if password is correct
+            }
             else socket.emit('sign-log-error', 'login', 'No such user or wrong password')
 
         } else socket.emit('sign-log-error', 'login', 'No such user or wrong password')
@@ -141,12 +151,21 @@ io.on('connection', socket => {
         socket.emit('user-updated', userData); // send it
     });
 
+    socket.on('change-dp', _username => {
+        // upload image using multer and save it in cloudinary
+    })
+
     socket.on('data-for-homepage', data => { // send data to homepage
         socket.emit('user-data-home', data);
     })
 
     socket.on('disconnect', () => { // user disconnects
         console.log('socket disconnected');
+
+        if (Object.keys(socketEntry).includes(socket.id)) { // if user is logged in
+            delete socketEntry[socket.id];
+        }
+
         Object.keys(unverifiedUsers).forEach(mail => {
             if (unverifiedUsers[mail][3] === socket.id) {
                 delete unverifiedUsers[mail] // remove the user from unverifiedUsers, if there

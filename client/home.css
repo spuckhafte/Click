@@ -6,7 +6,7 @@
 }
 
 body {
-    background-image: linear-gradient(to right, #B8C9E5, #f0f3fa);
+    background-image: linear-gradient(to right, #5689d4, #6d769cc0);
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-family: cursive;
     overflow: hidden;
@@ -18,13 +18,17 @@ body {
     background-color: rgba(0, 0, 0, 0.123)
 }
 
+.select-none {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
 .nav {
     display: inline;
     margin-inline: 8px;
     cursor: pointer;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
 }
 
 .logo {
@@ -96,9 +100,6 @@ body {
 }
 
 #home-dp {
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
     margin-top: 8px;
     width: 6rem;
     height: 6rem;
@@ -123,9 +124,6 @@ body {
 }
 
 #home-mail, #home-bday, #home-about {
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
     margin-top: -10px;
     text-align: center;
     word-wrap: break-word;
@@ -133,9 +131,6 @@ body {
 }
 
 #home-gender {
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
     margin-top: -20px;
     margin-bottom: 20px;
     text-align: center;
@@ -145,9 +140,6 @@ body {
 }
 
 #home-editprofile {
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
     cursor: pointer;
     padding: 5px;
     margin-top: -10px;
@@ -175,23 +167,10 @@ body {
     background: #888;
 }
 
-.main-content {
-    margin-top: -8px;
-    border: 2px solid black;
-    width: 100%;
-}
-
-.friends {
-    margin-top: -8px;
-    border: 2px solid black;
-    width: 18rem;
-    background-color: rgba(0, 0, 0, 0.123)
-}
-
 #home-bday-day, #home-bday-month {
     outline: none;
     font-weight: bold;
-    font-size: large;
+    font-size: medium;
     font-family: cursive;
     text-align: center;
     border: none;
@@ -202,10 +181,56 @@ body {
 #home-bday-year {
     outline: none;
     font-weight: bold;
-    font-size: large;
+    font-size: medium;
     font-family: cursive;
     text-align: center;
     border: none;
     background-color: transparent;
     width: 45px;
+}
+
+.main-content {
+    margin-top: -8px;
+    border: 2px solid black;
+    width: 100%;
+}
+
+.friends {
+    margin-top: -8px;
+    border: 2px solid black;
+    width: 18rem;
+    background-color: rgba(0, 0, 0, 0.123);
+}
+
+.friends-header {
+    background-color: rgba(0, 0, 0, 0.123);
+    border: 2px solid black;
+    padding-top: 1px;
+    font-size: x-large;
+    font-weight: bold;
+    display: flex;
+}
+
+.friends-tab {
+    border: 2px solid black;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.friends-tab:hover {
+    background-color: rgba(0, 0, 0, 0.082);
+}
+
+.friends-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.friends-content #header {
+    font-size: normal;
+    font-weight: bold;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    text-decoration: underline;
 }
