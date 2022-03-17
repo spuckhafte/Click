@@ -12,7 +12,7 @@ const multer = require('multer');
 // userabout -> {0: id, 1: [dp, gender, about]}
 // userinfo -> {0: id, 1: [mail, password, dob]}
 const unverifiedUsers = {}; // { mail: username, pass, otp, socket.id } -> info of users to be verified
-const socketEntry = {}; // {socket.id: userlinked}
+const socketEntry = {}; // {socket.id: userlinked} => keeps tracks of online users
 
 
 io.on('connection', socket => {
@@ -25,23 +25,21 @@ io.on('connection', socket => {
         if (allUsers.includes(username)) { // if username exists
             let userData = {}
             let _user = jdb.getR('data', 'moral', ['user', username]);
-            console.log(typeof _user);
             let user = JSON.parse(_user['userinfo']) // get user info [email, password, dob]
-            let about = JSON.parse(jdb.getR('data', 'moral', ['user', username])['userabout']); // get user info [avatar, gender, about]
+            let about = JSON.parse(_user['userabout']); // get user info [avatar, gender, about]
+            let friends = JSON.parse(_user['userfriends']); // get array of friends
 
             userData['entry'] = _user['entry']
             userData['username'] = username;
             userData['mail'] = user[0];
-            userData['password'] = user[1];
             userData['dob'] = user[2];
             userData['avatar'] = about[0];
             userData['gender'] = about[1];
             userData['about'] = about[2];
-            userData['line'] = '1';
+            userData['friends'] = friends;
 
             userData = JSON.stringify(userData);
-            socketEntry[socket.id] = _user['entry'];
-
+            socketEntry[socket.id] = username;
             let checkPass = sha256(password) // password entered by user
             if (checkPass === user[1]) {
                 socket.emit('sign-log-success', 'login', userData) // if password is correct
@@ -115,7 +113,10 @@ io.on('connection', socket => {
                 let moralObject = {
                     'user': user,
                     'userinfo': [email, password, dob],
-                    'userabout': [`https://avatars.dicebear.com/api/pixel-art-neutral/:${user}.png`, gender, about]
+                    'userabout': [`https://avatars.dicebear.com/api/pixel-art-neutral/:${user}.png`, gender, about],
+                    'userfriends': [], // [[username1, avatar1], [username2, avatar2]]
+                    'incomingReqs': [],
+                    'outgoingReqs': []
                 }
                 socket.emit('sign-log-success', 'register')
                 await jdb.assignR('data', moralObject) // assign user to database if verified
@@ -159,12 +160,41 @@ io.on('connection', socket => {
         socket.emit('user-data-home', data);
     })
 
+    socket.on('get-online', (_getUser, query) => {
+        let getUser = typeof _getUser === 'object' ? _getUser : JSON.parse(_getUser);
+        let user = getUser['username'];
+        if (!Object.values(socketEntry).includes(user)) socketEntry[socket.id] = user; // add user to socketEntry
+        // send online users to client
+        let onlineUsers = Object.values(socketEntry);
+        socket.emit('get-online-response', _getUser, query, onlineUsers);
+    })
+
+    socket.on('get-pending', (_getUser, query) => {
+        let getUser = typeof _getUser === 'object' ? _getUser : JSON.parse(_getUser);
+        let user = getUser['username'];
+        const pendingReqs = JSON.parse(jdb.getR('data', 'moral', ['user', user])['incomingReqs']); // [[username1, avatar1], [username2, avatar2]]
+        socket.emit('get-pending-response', query, pendingReqs);
+    })
+
+    socket.on('get-sent', (_getUser, query) => {
+        let getUser = typeof _getUser === 'object' ? _getUser : JSON.parse(_getUser);
+        let user = getUser['username'];
+        const sentReqs = JSON.parse(jdb.getR('data', 'moral', ['user', user])['outgoingReqs']); // [[username1, avatar1], [username2, avatar2]]
+        socket.emit('get-sent-response', query, sentReqs);
+    })
+
+    socket.on('search-user', username => {// search for user in database
+        if (username.length > 2 && username.length < 21) {
+            let usernames = Object.values(jdb.getEl('data', 'user'))
+            let users = usernames.filter(user => user.startsWith(username));
+            socket.emit('search-user-response', users);
+        }
+    })
+
     socket.on('disconnect', () => { // user disconnects
         console.log('socket disconnected');
-
-        if (Object.keys(socketEntry).includes(socket.id)) { // if user is logged in
-            delete socketEntry[socket.id];
-        }
+        if (Object.keys(socketEntry).includes(socket.id)) delete socketEntry[socket.id]; // delete socket entry (user offline)
+        console.log(socketEntry);
 
         Object.keys(unverifiedUsers).forEach(mail => {
             if (unverifiedUsers[mail][3] === socket.id) {

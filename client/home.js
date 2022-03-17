@@ -9,11 +9,19 @@ const homeAbout = document.querySelector('#home-about-text');
 const homeGender = document.querySelector('#home-gender');
 const editProfileBtn = $('#home-editprofile');
 const dpProfile = $('#home-dp');
+const search = $('#search-users');
 
 let user = JSON.parse(sessionStorage.getItem('user'));
 user = typeof user === 'object' ? user : JSON.parse(user);
+user = typeof user === 'object' ? user : JSON.parse(user);
 window.onload = () => {
-    updateUser(user);
+    if (user !== null) {
+        console.log(user);
+        updateUser(user);
+        socket.emit('get-online', user, '.friends-content');
+        socket.emit('get-pending', user, '.pending-req');
+        socket.emit('get-sent', user, '.sent-req');
+    }
 }
 
 editProfileBtn.click(() => { // edit profile
@@ -78,6 +86,30 @@ editProfileBtn.click(() => { // edit profile
     }
 });
 
+$('#all-friends-tab').click(() => {
+    socket.emit('get-online', user, '.friends-content');
+    // change the classname of #all-friends
+    $('#all-friends').attr('class', 'friends-content frnds block');
+    $('#pending-requests').attr('class', 'pending-req frnds');
+    $('#sent-requests').attr('class', 'sent-req frnds');
+})
+
+$('#pending-tab').click(() => {
+    socket.emit('get-online', user, '.friends-content');
+    // change the classname of #all-friends
+    $('#all-friends').attr('class', 'friends-content frnds');
+    $('#pending-requests').attr('class', 'pending-req frnds block');
+    $('#sent-requests').attr('class', 'sent-req frnds');
+})
+
+$('#sent-tab').click(() => {
+    socket.emit('get-online', user, '.friends-content');
+    // change the classname of #all-friends
+    $('#all-friends').attr('class', 'friends-content frnds');
+    $('#pending-requests').attr('class', 'pending-req frnds');
+    $('#sent-requests').attr('class', 'sent-req frnds block');
+})
+
 dpProfile.click(() => { // change profile picture
     socket.emit('change-dp', user['username']);
 });
@@ -122,16 +154,167 @@ function updateUser(_getUser) { // update the user with the latest information i
         homeBdayYear.value = user['dob'].split('-')[2];
         $('#home-about-text').text(user['about']);
         homeGender.innerHTML = user['gender'];
+
+        homeName.setAttribute('title', user['username']);
+        homeMail.setAttribute('title', user['mail']);
+
     } else {
         window.location.href = './login.html';
     }
 }
+
+socket.on('get-online-response', (_getUser, query, data) => { // update the online users list
+    let friendsListDiv = document.querySelector(query)
+    let getUser = (typeof _getUser) === 'object' ? _getUser : JSON.parse(_getUser);
+    let friends = getUser['friends'];
+    if (getUser !== null) {
+        if (friends.length > 0) {
+            // separate the friends into online and offline
+            let friendNames = [];
+            let friendAvatars = [];
+            friends.forEach(friend => {
+                friendNames.push(friend[0]);
+                friendAvatars.push(friend[1]);
+            });
+            // get list of online users
+
+            let onlineFriends = [];
+            let offlineFriends = [];
+            friendNames.forEach(friend => {
+                if (data.includes(friend)) onlineFriends.push(friend);
+                else offlineFriends.push(friend);
+            });
+            removeChildren(friendsListDiv, 'fdv');
+            // update the friends list
+            onlineFriends.forEach(friend => {
+                let friendIndex = friendNames.indexOf(friend);
+                let friendAvatar = friendAvatars[friendIndex];
+                let friendName = friendNames[friendIndex];
+                let friendDiv = document.createElement('div');
+                friendDiv.className = 'fdv friend-list select-none';
+                friendDiv.innerHTML = `<img class="fo friend-dp" src="${friendAvatar}" alt="...">
+                                        <p class="fo friend-name" title=${friendName}>${friendName}</p>
+                                        <i class="fo friend-status fa fa-circle green" title="online"></i>`;
+                friendsListDiv.append(friendDiv);
+            });
+            console.log(offlineFriends)
+            offlineFriends.forEach(friend => {
+                let friendIndex = friendNames.indexOf(friend);
+                let friendAvatar = friendAvatars[friendIndex];
+                let friendName = friendNames[friendIndex];
+                let friendDiv = document.createElement('div');
+                friendDiv.className = 'fdv friend-list select-none';
+                friendDiv.innerHTML = `<img class="fo friend-dp" src="${friendAvatar}" alt="...">
+                                        <p class="fo friend-name" title=${friendName}>${friendName}</p>
+                                        <i class="fo friend-status fa fa-circle red" title="offline"></i>`;
+                friendsListDiv.append(friendDiv);
+            });
+
+        } else {
+            removeChildren(friendsListDiv, 'fdv');
+            // update the friends list with no friends
+            friendDiv = document.createElement('div');
+            friendDiv.className = 'fdv select-none no-content';
+            friendDiv.innerHTML = 'Not yet';
+            friendsListDiv.append(friendDiv);
+        }
+    }
+})
+
+socket.on('get-pending-response', (query, pendingReqs) => {// update the pending requests list 
+    let pendingListDiv = document.querySelector(query)
+    if (pendingReqs.length > 0) {
+        pendingReqs.forEach(req => {
+            let pendingDiv = document.createElement('div');
+            pendingDiv.className = 'fdv pending-list select-none';
+            pendingDiv.innerHTML = `<img class="fo friend-dp" src=${req[1]} alt="...">
+                                    <p class="fo friend-name" title="${req[0]}">${req[0]}</p>
+                                    <div class="acc-dec-box">
+                                        <i class="fo accept fa fa-check" id="acc-req" title="accept"></i>
+                                        <i class="fo decline fa fa-times" id="dec-req" title="decline"></i>
+                                    </div>`;
+            pendingListDiv.append(pendingDiv);
+        });
+    } else {
+        pendingDiv = document.createElement('div');
+        pendingDiv.className = 'fdv select-none no-content';
+        pendingDiv.innerHTML = 'Not yet';
+        pendingListDiv.append(pendingDiv);
+    }
+})
+
+socket.on('get-sent-response', (query, sentReqs) => {// update the sent requests list
+    let sentListDiv = document.querySelector(query)
+    if (sentReqs.length > 0) {
+        sentReqs.forEach(req => {
+            let sentDiv = document.createElement('div');
+            sentDiv.className = 'fdv sent-list select-none';
+            sentDiv.innerHTML = `<img class="fo friend-dp" src=${req[1]} alt="...">
+                                 <p class="fo friend-name" title=${req[0]}>${req[0]}</p>
+                                 <i class="fo decline dsent fa fa-times" id="dec-sent-req" title="decline"></i>`;
+            sentListDiv.append(sentDiv);
+        });
+    } else {
+        sentDiv = document.createElement('div');
+        sentDiv.className = 'fdv select-none no-content';
+        sentDiv.innerHTML = 'Not yet';
+        sentListDiv.append(sentDiv);
+    }
+})
+
+socket.on('search-user-response', users => {// update the search results
+    let searchResultsDiv = document.querySelector('#search');
+    removeChildren(searchResultsDiv, 'fdv');
+    if (users.length > 0) {
+        users.forEach(user => {
+            let userDiv = document.createElement('div');
+            userDiv.className = 'fdv friend-list select-none';
+            userDiv.innerHTML = `<p class="fo friend-name name-s" title=${user}>${user}</p>
+                                 <i class="fo add-friend fa fa-plus green" id="add-friend" title="add friend"></i>`;
+            searchResultsDiv.append(userDiv);
+        });
+    } else {
+        let searchResultsDiv = document.querySelector('#search');
+        removeChildren(searchResultsDiv, 'fdv');
+        let searchDiv = document.createElement('div');
+        searchDiv.className = 'fdv select-none no-content';
+        searchDiv.innerHTML = 'None';
+        searchResultsDiv.append(searchDiv);
+    }
+})
 
 homeAbout.onkeydown = (e) => {
     if (homeAbout.contentEditable) {
         if (e.keyCode === 13) e.preventDefault(); // prevents line break when editing
         const length = homeAbout.textContent.length; // get the length of the text
         if (length > 100) if (e.keyCode !== 8 && e.keyCode !== 46) e.preventDefault(); // prevent user from entering more than 100 characters
+    }
+}
+
+search.on('keyup', () => {
+    $('#search span').css('display', 'none');
+    if (search.val().length >= 3) socket.emit('search-user', search.val());
+    else if (search.val().length === 0) {
+        removeChildren(document.querySelector('#search'), 'fdv');
+        $('#search span').css('display', 'block');
+    }
+    else {
+        let searchResultsDiv = document.querySelector('#search');
+        removeChildren(searchResultsDiv, 'fdv');
+        let searchDiv = document.createElement('div');
+        searchDiv.className = 'fdv select-none no-content';
+        searchDiv.innerHTML = 'None';
+        searchResultsDiv.append(searchDiv);
+    }
+});
+
+// remove children
+function removeChildren(element, childClass) {
+    if (element.lastChild.className !== undefined) {
+        while (true) {
+            if (element.lastChild.className === undefined) break;
+            if (element.lastChild.className.startsWith(childClass)) element.removeChild(element.lastChild);
+        }
     }
 }
 

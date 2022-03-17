@@ -1,8 +1,27 @@
+:root {
+    --green: #44d393;
+    --red: rgb(255, 109, 109);
+}
+
+.green {
+    color: var(--green);
+}
+.red {
+    color: var(--red);
+}
 .abs-center {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.none {
+    display: none;
+}
+
+.block {
+    display: block !important;
 }
 
 body {
@@ -120,7 +139,9 @@ body {
     font-weight: bold;
     font-size: large;
     text-align: center;
-    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #home-mail, #home-bday, #home-about {
@@ -128,6 +149,12 @@ body {
     text-align: center;
     word-wrap: break-word;
     font-weight: bold;
+}
+
+#home-mail {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #home-gender {
@@ -198,8 +225,9 @@ body {
 .friends {
     margin-top: -8px;
     border: 2px solid black;
-    width: 18rem;
+    width: 20rem;
     background-color: rgba(0, 0, 0, 0.123);
+    overflow-y: auto;
 }
 
 .friends-header {
@@ -222,15 +250,111 @@ body {
     background-color: rgba(0, 0, 0, 0.082);
 }
 
-.friends-content {
+.friends-content, .pending-req, .sent-req, .search {
     display: flex;
     flex-direction: column;
 }
 
-.friends-content #header {
+#f-header {
     font-size: normal;
     font-weight: bold;
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin: 2px;
     text-decoration: underline;
+}
+
+.frnds {
+    display: none;
+}
+
+.friend-list, .pending-list, .sent-list {
+    display: flex;
+    width: 10.3rem;
+    margin-right: 10px;
+}
+
+.friend-dp {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    position: relative;
+    top: 0.02rem;
+    margin-top: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.friend-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.friend-status {
+    position: relative;
+    left: 0.4rem;
+    top: 1.3rem;
+}
+
+.no-content {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.acc-dec-box {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.5rem;
+    margin-top: 0.8rem
+}
+
+.accept {
+    color: var(--green);
+    cursor: pointer;
+}
+.decline {
+    color: var(--red);
+    cursor: pointer;
+}
+
+.dsent {
+    margin-left: 0.5rem;
+    margin-top: 1.3rem;
+    height: 100%;
+}
+
+.friend-s {
+    margin-bottom: -1rem;
+}
+
+.name-s {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.add-friend {
+    position: relative;
+    left: 0.4rem;
+    top: 1.3rem;
+    cursor: pointer;
+    height: 100%;
+}
+
+#search span {
+    margin-left: 1rem;
+    font-size: small;
+}
+
+#search-users {
+    height: 2rem;
+    position: relative;
+    left: 50%;
+    width: 90%;
+    transform: translateX(-50%);
+    font-size: medium;
 }

@@ -43,7 +43,7 @@
             <div class="profile-overview">
                 <img class="select-none" title="Click To Change" id="home-dp" src="../assets/Test/test_dp.png"
                     alt="dp can't be loaded">
-                <p id="home-name"></p>
+                <p title="username" id="home-name"></p>
                 <p class="select-none" id="home-gender" title="gender"></p>
                 <p class="select-none" id="home-mail" title="email"><i class="fa fa-envelope"></i><br></p>
                 <p class="select-none" id="home-bday" title="b'day"><i class="fa fa-birthday-cake"></i><br><input
@@ -57,15 +57,55 @@
                             class="fa fa-pencil"></i></span></button>
             </div>
             <div class="main-content">
+
             </div>
             <div class="friends">
                 <div class="friends-header select-none">
-                    <div class="friends-tab" id="all-friends" title="friends"><i class="fa fa-child"></i></div>
-                    <div class="friends-tab" id="pending" title="pending reqs"><i class="fa fa-clock-o"></i></div>
-                    <div class="friends-tab" id="sent" title="sent reqs"><i class="fa fa-send-o"></i></div>
+                    <div class="friends-tab" id="all-friends-tab" title="friends"><i class="fa fa-child"></i></div>
+                    <div class="friends-tab" id="search-tab" title="search"><i class="fa fa-search"></i></div>
+                    <div class="friends-tab" id="pending-tab" title="pending reqs"><i class="fa fa-clock-o"></i></div>
+                    <div class="friends-tab" id="sent-tab" title="sent reqs"><i class="fa fa-send-o"></i></div>
                 </div>
-                <main class="friends-content">
-                    <div class="select-none" id="header">All Friends</div>
+                <main class="friends-content frnds" id="all-friends">
+                    <div class="select-none" id="f-header">All Friends</div>
+                    <!-- <div class="select-none no-content">
+                        Not yet
+                    </div> -->
+                    <!-- <div class="friend-list select-none">
+                        <img class="fo friend-dp" src="../assets/test/test_dp.png" alt="...">
+                        <p class="fo friend-name" title="username">username</p>
+                        <i class="fo friend-status  fa fa-circle green" title="status"></i>
+                    </div> -->
+                </main>
+
+                <main class="search frnds block" id="search">
+                    <div class="select-none" id="f-header">Search</div>
+                    <input type="text" id="search-users" placeholder="search">
+                    <!-- <div class="friend-list select-none friend-s">
+                        <p class="fo friend-name name-s" title="username">username</p>
+                        <i class="fo add-friend fa fa-plus" title="add friend"></i>
+                    </div> -->
+                    <span>type to search</span>
+                </main>
+
+                <main class="pending-req frnds" id="pending-requests">
+                    <div class="select-none" id="f-header">Pending</div>
+                    <!-- <div class="pending-list select-none">
+                        <img class="fo friend-dp" src="../assets/test/test_dp.png" alt="...">
+                        <p class="fo friend-name" title="username">username</p>
+                        <div class="acc-dec-box">
+                            <i class="fo accept fa fa-check" id="acc-req" title="accept"></i>
+                            <i class="fo decline fa fa-times" id="dec-req" title="decline"></i>
+                        </div>
+                    </div> -->
+                </main>
+                <main class="sent-req frnds" id="sent-requests">
+                    <div class="select-none" id="f-header">Sent</div>
+                    <!-- <div class="sent-list select-none">
+                        <img class="fo friend-dp" src="../assets/test/test_dp.png" alt="...">
+                        <p class="fo friend-name" title="username">username</p>
+                        <i class="fo decline dsent fa fa-times" id="dec-sent-req" title="decline"></i>
+                    </div> -->
                 </main>
             </div>
         </div>
