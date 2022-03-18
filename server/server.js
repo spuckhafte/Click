@@ -138,6 +138,7 @@ io.on('connection', socket => {
 
         user['userinfo'] = JSON.stringify(userinfo)
         user['userabout'] = JSON.stringify(userabout)
+
         await jdb.editR('data', entry, user);
 
         // send updated user info to client
@@ -148,6 +149,8 @@ io.on('connection', socket => {
         userData['avatar'] = userabout[0];
         userData['gender'] = userabout[1];
         userData['about'] = userabout[2];
+        userData['entry'] = user['entry'];
+        userData['friends'] = JSON.parse(user['userfriends']);
         userData = JSON.stringify(userData);
         socket.emit('user-updated', userData); // send it
     });

@@ -21,6 +21,8 @@ window.onload = () => {
         socket.emit('get-online', user, '.friends-content');
         socket.emit('get-pending', user, '.pending-req');
         socket.emit('get-sent', user, '.sent-req');
+    } else {
+        window.location.href = './login.html';
     }
 }
 
@@ -92,6 +94,7 @@ $('#all-friends-tab').click(() => {
     $('#all-friends').attr('class', 'friends-content frnds block');
     $('#pending-requests').attr('class', 'pending-req frnds');
     $('#sent-requests').attr('class', 'sent-req frnds');
+    $('#search').attr('class', 'search frnds');
 })
 
 $('#pending-tab').click(() => {
@@ -100,6 +103,7 @@ $('#pending-tab').click(() => {
     $('#all-friends').attr('class', 'friends-content frnds');
     $('#pending-requests').attr('class', 'pending-req frnds block');
     $('#sent-requests').attr('class', 'sent-req frnds');
+    $('#search').attr('class', 'search frnds');
 })
 
 $('#sent-tab').click(() => {
@@ -108,6 +112,17 @@ $('#sent-tab').click(() => {
     $('#all-friends').attr('class', 'friends-content frnds');
     $('#pending-requests').attr('class', 'pending-req frnds');
     $('#sent-requests').attr('class', 'sent-req frnds block');
+    $('#search').attr('class', 'search frnds');
+})
+
+$('#search-tab').click(() => {
+    socket.emit('get-online', user, '.friends-content');
+    // change the classname of #all-friends
+    $('#all-friends').attr('class', 'friends-content frnds');
+    $('#pending-requests').attr('class', 'pending-req frnds');
+    $('#sent-requests').attr('class', 'sent-req frnds');
+    $('#search').attr('class', 'search frnds block');
+    $('#search-users').focus();
 })
 
 dpProfile.click(() => { // change profile picture
@@ -269,8 +284,10 @@ socket.on('search-user-response', users => {// update the search results
         users.forEach(user => {
             let userDiv = document.createElement('div');
             userDiv.className = 'fdv friend-list select-none';
-            userDiv.innerHTML = `<p class="fo friend-name name-s" title=${user}>${user}</p>
-                                 <i class="fo add-friend fa fa-plus green" id="add-friend" title="add friend"></i>`;
+            let cursor = user !== $('#home-name')[0].innerText ? '' : 'block-cursor'
+            let title = user !== $('#home-name')[0].innerText ? 'add' : 'you';
+            userDiv.innerHTML =  `<p class="fo friend-name name-s" title=${user}>${user}</p>
+                                 <i class="fo add-friend fa fa-plus green ${cursor}" id="add-friend" title=${title}></i>`
             searchResultsDiv.append(userDiv);
         });
     } else {

@@ -17,11 +17,15 @@
 }
 
 .none {
-    display: none;
+    display: none !important;
 }
 
 .block {
     display: block !important;
+}
+
+.block-cursor {
+    cursor: not-allowed !important;
 }
 
 body {
@@ -335,14 +339,17 @@ body {
 .name-s {
     margin-left: 10px;
     font-weight: bold;
+    cursor: pointer;
+    font-size: large;
 }
 
 .add-friend {
     position: relative;
     left: 0.4rem;
-    top: 1.3rem;
+    top: 1.5rem;
     cursor: pointer;
     height: 100%;
+    font-size: large;
 }
 
 #search span {
